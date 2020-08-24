@@ -37,13 +37,20 @@ const hardcodedResults = [
     id:     5
   }
 ]
+const hardcodedPlaylistName = 'Funky Beats';
+const hardcodedPlaylistTracks = [
+  hardcodedResults[1],
+  hardcodedResults[4]
+];
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      searchResults: hardcodedResults
+      searchResults: hardcodedResults,
+      playlistName: hardcodedPlaylistName,
+      playlistTracks: hardcodedPlaylistTracks
     }
   }
 
@@ -55,7 +62,7 @@ class App extends React.Component {
           <SearchBar />
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} />
-            <Playlist />
+            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
       </div>
