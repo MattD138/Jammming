@@ -5,52 +5,14 @@ import { SearchBar } from '../SearchBar/SearchBar';
 import { SearchResults } from '../SearchResults/SearchResults';
 import { Spotify } from '../../util/Spotify/Spotify';
 
-const hardcodedResults = [
-  {
-    name:   'Faded',
-    artist: 'ZHU',
-    album:  'THE NIGHTDAY',
-    id:     1
-  },
-  {
-    name:   'Sandstorm',
-    artist: 'Darude',
-    album:  'Before The Storm',
-    id:     2
-  },
-  {
-    name:   'Sanctuary',
-    artist: 'Gareth Emery',
-    album:  'Sanctuary',
-    id:     3
-  },
-  {
-    name:   'Shelter',
-    artist: 'Porter Robinson',
-    album:  'Shelter',
-    id:     4
-  },
-  {
-    name:   'Sun & Moon',
-    artist: 'Above & Beyond',
-    album:  'Group Therapy',
-    id:     5
-  }
-]
-const hardcodedPlaylistName = 'Funky Beats';
-const hardcodedPlaylistTracks = [
-  hardcodedResults[1],
-  hardcodedResults[4]
-];
-
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      searchResults: hardcodedResults,
-      playlistName: hardcodedPlaylistName,
-      playlistTracks: hardcodedPlaylistTracks
+      searchResults: [],
+      playlistName: 'New Playlist',
+      playlistTracks: []
     };
     this.search = this.search.bind(this);
     this.addTrack = this.addTrack.bind(this);
@@ -89,7 +51,14 @@ class App extends React.Component {
   }
 
   savePlaylist() {
-    let trackURIs = this.state.playlistTracks.map(track => track.spotifyURI);
+    // Save current tracklist to a new playlist in the user's Spotify account
+    const playlistURIs = this.state.playlistTracks.map(track => track.uri);
+    Spotify.savePlaylist(this.state.playlistName, playlistURIs);
+    // Reset playlist name and tracklist
+    this.setState({
+      playlistName: 'New Playlist',
+      playlistTracks: []
+    });
   }
 
   render() {
